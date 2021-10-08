@@ -1,10 +1,14 @@
 import weather from './../data/current-weather.js'
-import {formatData} from './utils/format-data.js'
+import { formatDate, formatTemp } from './utils/format-data.js'
 
-function setCurrentDate( element ) {
-   
+
+function setCurrentTemp ( element, temp) {
+    element.textContent = formatTemp(temp)
+}
+
+function setCurrentDate( element ) {   
     const date = new Date()
-    const formattedDate = formatData( date )
+    const formattedDate = formatDate( date )
     element.textContent = formattedDate
 }
 
@@ -22,8 +26,11 @@ function configCurrentWeather( weather ) {
     const currentWeatherCity = document.querySelector('#current-weather-city')
     const city = weather.name
     setCurrentCity( currentWeatherCity,  city) 
-    // temp
-
+    // 
+    const currentWeatherTemp = document.querySelector('#current-weather-temp')
+    const temp = weather.main.temp 
+    setCurrentTemp( currentWeatherTemp, temp ) 
+    
     //backgroudn
 }
 export default function currentWeater() {
