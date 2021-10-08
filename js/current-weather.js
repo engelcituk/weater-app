@@ -2,6 +2,21 @@ import weather from './../data/current-weather.js'
 import { formatDate, formatTemp } from './utils/format-data.js'
 
 
+function solarStatus( sunriseTime, sunsetTime) {
+    const currentHours = new Date().getHours()
+    const sunriseHours = sunriseTime.getHours()
+    const sunsetHours = sunsetTime.getHours()
+
+    if( currentHours > sunsetHours || currentHours < sunriseHours ){
+        return 'night'
+    }
+
+    return 'morning'
+}
+function setBackground ( element, solarStatus ) {
+    element.style.backgroundImage = `url('./images/${solarStatus}-drizzle.jpg')`
+}
+
 function setCurrentTemp ( element, temp) {
     element.textContent = formatTemp(temp)
 }
@@ -31,7 +46,11 @@ function configCurrentWeather( weather ) {
     const temp = weather.main.temp 
     setCurrentTemp( currentWeatherTemp, temp ) 
     
-    //backgroudn
+    //background
+    const sunriseTime = new Date( weather.sys.sunrise * 1000 )
+    const sunsetTime = new Date( weather.sys.sunset * 1000 )
+    const app = document.querySelector('#app')
+    setBackground( app, solarStatus( sunriseTime, sunsetTime) )
 }
 export default function currentWeater() {
     configCurrentWeather( weather )
