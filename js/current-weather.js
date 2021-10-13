@@ -1,7 +1,7 @@
 import weather from './../data/current-weather.js'
 import { formatDate, formatTemp } from './utils/format-data.js'
 import {  weatherConditionsCodes } from './constants.js'
-
+import { getCurrentPosition } from './geolocation.js'
 
 function solarStatus( sunriseTime, sunsetTime) {
     const currentHours = new Date().getHours()
@@ -58,5 +58,6 @@ function configCurrentWeather( weather ) {
     setBackground( app, conditionCode, solarStatus( sunriseTime, sunsetTime) )
 }
 export default function currentWeater() {
+    getCurrentPosition()
     configCurrentWeather( weather )
 }
