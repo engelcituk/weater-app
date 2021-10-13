@@ -16,7 +16,8 @@ function solarStatus( sunriseTime, sunsetTime) {
 }
 function setBackground ( element, conditionCode, solarStatus ) {
     const weatherType = weatherConditionsCodes[conditionCode]
-    element.style.backgroundImage = `url('./images/${solarStatus}-${weatherType}.jpg')`
+    const size = window.matchMedia('(-webkit-min-device-pixel-ratio: 2)').matches ? '@2x' : ''
+    element.style.backgroundImage = `url('./images/${solarStatus}-${weatherType}${size}.jpg')`
 }
 
 function setCurrentTemp ( element, temp) {
