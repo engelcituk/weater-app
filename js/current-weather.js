@@ -58,6 +58,10 @@ function configCurrentWeather( weather ) {
     setBackground( app, conditionCode, solarStatus( sunriseTime, sunsetTime) )
 }
 export default function currentWeater() {
-    getCurrentPosition()
+    getCurrentPosition().then( (data) => {
+        console.log( data )
+    }).catch( (msg) => {
+        console.log( msg )
+    })
     configCurrentWeather( weather )
 }
