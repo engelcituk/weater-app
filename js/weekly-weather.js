@@ -1,5 +1,6 @@
 import { getWeeklyWeather } from './services/weather.js'
 import { getLatLong } from './geolocation.js'
+import { formatWeekList } from './utils/format-data.js'
 
 function configWeeklyWeather() {
     
@@ -11,6 +12,8 @@ export default async function weeklyWeather(params) {
 
     const { isError: weeklyWeatherError, data: weather } =  await getWeeklyWeather(lat, long)
     if( weeklyWeatherError ) return console.log('Oh, ha ocurrido un error trayendo el pronostico del clima')
+    
+    const weekList = formatWeekList( weather.list )
     debugger
     configWeeklyWeather( weather )
 }
