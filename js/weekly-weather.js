@@ -3,11 +3,29 @@ import { getLatLong } from './geolocation.js'
 import { formatWeekList } from './utils/format-data.js'
 import { createDOM } from './utils/dom.js'
 
+function tabPanelTemplate( id ) {
+    return `
+        <div class="tabPanel" tabindex="0" aria-labelledby="tab-${id}">
+          <div class="dayWeather" id="dayWeather-${id}">
+            <ul class="dayWeather-list" id="dayWeather-list-${id}">
+            tab panel ${id}
+            </ul>
+          </div>
+        </div>
+    `
+}
+function createTabPanel(id) {
+    const panel = createDOM( tabPanelTemplate( id ) )    
+    if( id > 0 ){
+        panel.hidden = true
+    }
+    return panel
+}
 function configWeeklyWeather( weekList ) {
     const constainer = document.querySelector('.weeklyWeather')
-    weekList.forEach( () => {
-        const element = createDOM( `<h2>hola mundo</h2>` )
-        constainer.append(element)
+    weekList.forEach( (day, index) => {
+        const panel = createTabPanel(index)
+        constainer.append( panel )
     })
 }
 export default async function weeklyWeather(params) {
