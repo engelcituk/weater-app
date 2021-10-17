@@ -35,9 +35,17 @@ function setCurrentCity(element, city) {
     element.textContent = city
 }
 
+function showCurrentWeather(app, loading) {
+    app.hidden = false
+    loading.hidden = true
+
+}
+
 function configCurrentWeather( weather ) {
     //loader
-
+    const app = document.querySelector('#app')
+    const loading = document.querySelector('#loading')
+    showCurrentWeather(app, loading)
     //date
     const currentWeatherDate = document.querySelector('#current-weather-date')
     setCurrentDate(currentWeatherDate)
@@ -53,7 +61,6 @@ function configCurrentWeather( weather ) {
     //background
     const sunriseTime = new Date( weather.sys.sunrise * 1000 )
     const sunsetTime = new Date( weather.sys.sunset * 1000 )
-    const app = document.querySelector('#app')
     const conditionCode =  String( weather.weather[0].id ).charAt(0) 
  
     setBackground( app, conditionCode, solarStatus( sunriseTime, sunsetTime) )
