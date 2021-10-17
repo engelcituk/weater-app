@@ -20,6 +20,7 @@ function nextDay( day ) {
     return day + 1
 }
 tabList.forEach( (tab, index) => {
+    tab.addEventListener('click', handleSelectTabClick )
     if( index === 0 ){
         tab.textContent = 'Hoy'
         weekDay = nextDay( weekDay ) 
@@ -28,3 +29,16 @@ tabList.forEach( (tab, index) => {
     tab.textContent = week[ weekDay ]
     weekDay = nextDay( weekDay ) 
 })
+
+function handleSelectTabClick( event ) {
+    const tabSelected = event.target
+    const tabActive = document.querySelector('.tab[aria-selected="true"]')
+    tabActive.removeAttribute('aria-selected')
+    tabSelected.setAttribute('aria-selected', true)
+    const id = tabSelected.id
+    const tabPanel = document.querySelector(`[aria-labelledby=${id}]`)    
+    const tabPanelSelected = document.querySelector(`.tabPanel:not([hidden])`)    
+
+    tabPanel.hidden = false
+    tabPanelSelected.hidden = true
+}
