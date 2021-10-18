@@ -31,6 +31,10 @@ export default function draggable(element, config = defaultConfig ) {
     marker.addEventListener('pointercancel', handlePointerCancel )
     marker.addEventListener('pointermove', handlePointerMove )
 
+    if( config.animatable ){
+        setAnimations()
+    }
+
     function handleClick(event) {
         logger('click')
         toggle()
@@ -43,14 +47,17 @@ export default function draggable(element, config = defaultConfig ) {
 
     function handlePointerUp(event) {
         logger('pointerup')
+        dragEnd()
     }
 
     function handlePointerOut(event) {
         logger('pointerout')
+        dragEnd()
     }
 
     function handlePointerCancel( event ) {
         logger('pointercancel')
+        dragEnd()
     }
 
     function handlePointerMove( event ) {
@@ -60,9 +67,27 @@ export default function draggable(element, config = defaultConfig ) {
     function pageY(event) {
         return event.pageY || event.touches[0].pageY
     }
+
     function startDrag( event ) {
         isDragging = true
         startY = pageY( event )
+    }
+
+    function setAnimations( ) {
+        element.style.transition = 'margin-bottom .3s'
+    }
+
+    function bounce() {
+        if( widgetPosition < ELEMENT_BLOCK_SIZE / 2){
+            return open()
+        }   
+        return close()
+    }
+
+    function dragEnd() {
+        logger('Drag end')
+        isDragging = false
+        bounce()
     }
 
     function toggle() {
