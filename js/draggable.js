@@ -21,6 +21,8 @@ export default function draggable(element, config = defaultConfig ) {
     let widgetPosition = VISIBLE_Y_POSITION
     
     isOpen ? open() : close()
+    
+    let startY = 0
 
     marker.addEventListener('click', handleClick )
     marker.addEventListener('pointerdown', handlePointerDown )
@@ -36,8 +38,8 @@ export default function draggable(element, config = defaultConfig ) {
 
     function handlePointerDown(event) {
         logger('pointerdown')
+        startDrag( event )
     }
-
 
     function handlePointerUp(event) {
         logger('pointerup')
@@ -47,12 +49,20 @@ export default function draggable(element, config = defaultConfig ) {
         logger('pointerout')
     }
 
-    function handlePointerCancel(event) {
+    function handlePointerCancel( event ) {
         logger('pointercancel')
     }
 
-    function handlePointerMove(event) {
+    function handlePointerMove( event ) {
         logger('pointermove')
+        drag( event )
+    }
+    function pageY(event) {
+        return event.pageY || event.touches[0].pageY
+    }
+    function startDrag( event ) {
+        isDragging = true
+        startY = pageY( event )
     }
 
     function toggle() {
@@ -86,5 +96,13 @@ export default function draggable(element, config = defaultConfig ) {
 
     function setWidgetPosition( value ) {
         element.style.marginBottom = `-${value}px`
+    }
+
+    function drag( event ) {
+        const cursorY = pageY( event )
+        const movementY = cursorY - startY
+        widgetPosition = widgetPosition  + movementY
+        startY = cursorY
+        setWidgetPosition( widgetPosition )
     }
 } 
